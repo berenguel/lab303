@@ -16,170 +16,221 @@ In this lab you will start with creating an Azure Database for PostgreSQL in you
 
 60 minutes
 
+
+
 **Objectives**
 
 At the end of this lab, you will be able to:
 
-*	*Demonstrate to customers how to deploy an assessment and migration from Oracle to PostgreSQL*
+* *Demonstrate to customers how to deploy an assessment and migration from Oracle to PostgreSQL*
 
-*	*Deliver the approach for Azure PostgreSQL migrations to customers*
+* *Deliver the approach for Azure PostgreSQL migrations to customers*
 
-*	*Solve typical use cases for migration to Azure PostgreSQL following the appropriated Microsoft approach and tooling*
+* *Solve typical use cases for migration to Azure PostgreSQL following the appropriated Microsoft approach and tooling*
 
+  
 
+**Logon Information**
 
-2nd paragraph. *Italic*, **bold**, and `monospace`. Itemized lists
-look like:
+Use the following credentials to login into the lab environment
 
+* Username: XXXXX
 
-  * this one
-  * that one
-  * the other one
+* Password: YYYY
 
-Note that --- not considering the asterisk --- the actual text
-content starts at 4-columns in.
-
-> Block quotes are
-> written like so.
->
-> They can span multiple paragraphs,
-> if you like.
-
-Use 3 dashes for an em-dash. Use 2 dashes for ranges (ex., "it's all
-in chapters 12--14"). Three dots ... will be converted to an ellipsis.
-Unicode is supported. ☺
+  
 
 
+###  Exercise 1: Assess the Oracle source database ###
 
-An h2 header
-------------
+The steps in this exercise covers how to assess the cost and effort of an Oracle to Azure Database for PostgreSQL migration. The attendees are going to execute the assessment using ora2pg (tool) via cmd and analyze the result of the report.
 
-Here's a numbered list:
+This exercise should take no longer than 5-7 min.
 
-    1. first item
-    2. second item
-    3. third item
+First, let’s get familiar with the ora2pg tool:
 
-Note again how the actual text starts at 4 columns in (4 characters
-from the left side). Here's a code sample:
+1. ora2pg is installed in your c:\ directory
 
-    # Let me re-iterate ...
-    for i in 1 .. 10 { do-something(i) }
+   IMAGE HERE
 
-As you probably guessed, indented 4 spaces. By the way, instead of
-indenting the block, you can use delimited blocks, if you like:
+2. Navigate to c:\ora2pg and right click on ora2pg_dist.conf and select “edit with Notepad++”
+
+   IMAGE HERE
+
+3. Right-click to open the file ora2pg_hr.conf. This is the configuration file that should be used for this
+   lab.
+
+   IMAGE HERE
+
+   Second, let’s create the migration project structure:
+
+   1. Open windows command prompt or “**cmd**”. Go to Windows Menu on the bottom left-hand side of your screen and type “**cmd**” or go to search and type “**cmd**”.
+
+   2. Navigate to the ora2pg folder by typing:
 
 ~~~
-define foobar() {
-    print "Welcome to flavor country!";
-}
+      c:\ora2pg
 ~~~
 
-(which makes copying & pasting easier). You can optionally mark the
-delimited block for Pandoc to syntax highlight it:
+   3. Run the command below:
 
-~~~python
-import time
-# Quick, count to ten!
-for i in range(10):
-    # (but not *too* quick)
-    time.sleep(0.5)
-    print(i)
+~~~
+      ora2pg --project_base c:\ts303 -c ora2pg_hr.conf –init_project hr_migration
 ~~~
 
 
+   ​	The output should be as following:
 
-### An h3 header ###
+   ​	IMAGE HERE
 
-Now a nested list:
 
- 1. First, get these ingredients:
 
-      * carrots
-      * celery
-      * lentils
+4. Using the GUI, check that the folder structure was created properly:
 
- 2. Boil some water.
+   
 
- 3. Dump everything in the pot and follow
-    this algorithm:
+   IMAGE HERE
 
-        find wooden spoon
-        uncover pot
-        stir
-        cover pot
-        balance wooden spoon precariously on pot handle
-        wait 10 minutes
-        goto first step (or shut off burner when done)
+   
 
-    Do not bump wooden spoon or it will fall.
+Third, let’s run the assessment:
 
-Notice again how text always lines up on 4-space indents (including
-that last line which continues item 3 above).
+1. Go back to the “**cmd**” window. In case you closed: Open windows command prompt or “**cmd**”. Go to Windows Menu on the bottom left-hand side of your screen and type “**cmd**” or go to search and type “**cmd**”.
 
-Here's a link to [a website](http://foo.bar), to a [local
-doc](local-doc.html), and to a [section heading in the current
-doc](#an-h2-header). Here's a footnote [^1].
+2. Navigate to the hr_migration project folder by typing:
+~~~
+cd c:\ts303\hr_migration
+~~~
 
-[^1]: Some footnote text.
+3. Run the following set of commands:
 
-Tables can look like this:
+~~~
+ora2pg -t SHOW_TABLE -c c:\ora2pg\ora2pg_hr.conf > c:\ts303\hr_migration\reports\tables.txt
+ora2pg -t SHOW_COLUMN -c c:\ora2pg\ora2pg_hr.conf > c:\ts303\hr_migration\reports\columns.txt
+ora2pg -t SHOW_REPORT -c c:\ora2pg\ora2pg_hr.conf --dump_as_html --estimate_cost > c:\ts303\hr_migration\reports\report.html
+ora2pg -t SHOW_REPORT -c c:\ora2pg\ora2pg_hr.conf –-cost_unit_value 10 --dump_as_html --estimate_cost > c:\ts303\hr_migration\reports\report2.html 
+~~~
 
-Name           Size  Material      Color
-------------- -----  ------------  ------------
-All Business      9  leather       brown
-Roundabout       10  hemp canvas   natural
-Cinderella       11  glass         transparent
 
-Table: Shoes sizes, materials, and colors.
 
-(The above is the caption for the table.) Pandoc also supports
-multi-line tables:
+IMAGE HERE
 
---------  -----------------------
-Keyword   Text
---------  -----------------------
-red       Sunsets, apples, and
-          other red or reddish
-          things.
 
-green     Leaves, grass, frogs
-          and other things it's
-          not easy being.
---------  -----------------------
 
-A horizontal rule follows.
+4. Check the report results on the migration project folder by navigating to c:\ts303\hr_migration\reports\ and double click on report.html to open it in the browser:
 
-***
+   IMAGE HERE
 
-Here's a definition list:
 
-apples
-  : Good for making applesauce.
+~~~
+Migration levels:
 
-oranges
-  : Citrus!
+        A - Migration that might be run automatically
 
-tomatoes
-  : There's no "e" in tomatoe.
+        B - Migration with code rewrite and a human-days cost up to 5 days
 
-Again, text is indented 4 spaces. (Put a blank line between each
-term and  its definition to spread things out more.)
+        C - Migration with code rewrite and a human-days cost above 5 days
 
-Here's a "line block" (note how whitespace is honored):
+    Technical levels:
 
-| Line one
-|   Line too
-| Line tree
+        1 = trivial: no stored functions and no triggers
 
-and images can be specified like so:
+        2 = easy: no stored functions but with triggers, no manual rewriting
 
-![example image](example-image.jpg "An exemplary image")
+        3 = simple: stored functions and/or triggers, no manual rewriting
 
-Inline math equation: $\omega = d\phi / dt$. Display
-math should get its own line like so:
+        4 = manual: no stored functions but with triggers or views with code rewriting
 
-$$I = \int \rho R^{2} dV$$
+        5 = difficult: stored functions and/or triggers with code rewriting
+~~~
 
-And note that you can backslash-escape any punctuation characters
-which you wish to be displayed literally, ex.: \`foo\`, \*bar\*, etc.
+
+
+**Summary:** In this exercise, you learnt how to assess an Oracle database and understand what the complexity is for the migration to Azure Database for PostgreSQL. You also learnt this is step 1 of end-to-end migration project.
+
+### Exercise 2: Migrate an Oracle source database to Azure Database for PostgreSQL ###
+
+The steps in this exercise covers how to migrate an Oracle database to Azure Database for PostgreSQL. The attendees are going to export the Oracle database data and code using ora2pg, fix some common migration problems and import the fixed data, ddls and code into Azure Database for PostgreSQL. This exercise should take no longer than 30 min.
+
+1. Export all the objects categories by running the following commands on cmd:
+
+~~~
+   ora2pg -t DBLINK -p -o dblink.sql -b %namespace%/schema/dblinks -c %namespace%/config/ora2pg.conf
+
+   ora2pg -t DIRECTORY -p -o directory.sql -b %namespace%/schema/directories -c %namespace%/config/ora2pg.conf
+
+   ora2pg -p -t FUNCTION -o functions2.sql -b %namespace%/schema/functions -c %namespace%/config/ora2pg.conf
+
+   ora2pg -t GRANT -o grants.sql -b %namespace%/schema/grants -c %namespace%/config/ora2pg.conf
+
+   ora2pg -t MVIEW -o mview.sql -b %namespace%/schema/mviews -c %namespace%/config/ora2pg.conf
+
+   ora2pg -p -t PACKAGE -o packages.sql -b %namespace%/schema/packages -c %namespace%/config/ora2pg.conf
+
+   ora2pg -p -t PARTITION -o partitions.sql -b %namespace%/schema/partitions -c %namespace%/config/ora2pg.conf
+
+   ora2pg -p -t PROCEDURE -o procs.sql -b %namespace%/schema/procedures -c %namespace%/config/ora2pg.conf
+
+   ora2pg -t SEQUENCE -o sequences.sql -b %namespace%/schema/sequences -c %namespace%/config/ora2pg.conf
+
+   ora2pg -p -t SYNONYM -o synonym.sql -b %namespace%/schema/synonyms -c %namespace%/config/ora2pg.conf
+
+   ora2pg -t TABLE -o table.sql -b %namespace%/schema/tables -c %namespace%/config/ora2pg.conf
+
+   ora2pg -t TABLESPACE -o tablespaces.sql -b %namespace%/schema/tablespaces -c %namespace%/config/ora2pg.conf
+
+   ora2pg -p -t TRIGGER -o triggers.sql -b %namespace%/schema/triggers -c %namespace%/config/ora2pg.conf
+
+   ora2pg -p -t TYPE -o types.sql -b %namespace%/schema/types -c %namespace%/config/ora2pg.conf
+
+   ora2pg -p -t VIEW -o views.sql -b %namespace%/schema/views -c %namespace%/config/ora2pg.conf
+~~~
+
+
+   2. Finally export the data, by running the following command on cmd
+~~~
+   ora2pg -t COPY -o data.sql -b %namespace/data -c %namespace/config/ora2pg.conf
+~~~
+
+
+   3. Perform the manual fixes as following:
+
+   a) DataType change
+
+   b) Synonym
+
+  4. Prepare the Azure Database for PosgreSQL
+
+  5. Run all files against the Azure Database for PostgreSQL server
+
+
+~~~
+   psql -f %namespace%\schema\sequences\sequence.sql -h server1-server.postgres.database.azure.com -p 5432 -U username@server1-server -d database -L %namespace%\ schema\sequences\create_sequences.log
+
+   psql -f %namespace%\schema\tables\table.sql -h server1-server.postgres.database.azure.com -p 5432 -U username@server1-server -d database -L %namespace%\schema\tables\create_table.log
+
+psql -f %namespace%\data\table1.sql -h server1-server.postgres.database.azure.com -p 5432 -U username@server1-server -d database -L %namespace%\data\table1.log
+~~~
+
+During the compilation of files, check the logs and correct the necessary syntaxes that ora2pg was unable to convert out of the box.
+
+   6..       Run Migration validation
+~~~
+   ora2pg -t TEST -c config/ora2pg.conf > migration_diff.txt
+~~~
+
+**Summary:** In this exercise, you learnt how to deploy an end-to-end migration from Oracle to Azure Database for PostgreSQL. In addition to that, you learnt the approach for this kind of migrations and how they can quickly executed for customers
+
+  
+
+   ### Exercise 3: Use Case and Pattern Discussion ###
+
+   In this exercise, you will understand what the use cases for this migration.
+
+   1.       Archiving
+
+   2.       Single Tenant
+
+   3.       MultiTenant
+
+**Summary**: In this exercise, you learnt how the simple steps deployed in this lab can easily help customers on migrating from Oracle to Azure Database for PostgreSQL
