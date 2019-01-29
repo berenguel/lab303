@@ -1,14 +1,14 @@
-Getting Started with Oracle to Azure PostgreSQL migrations (Compete)
-============
+# Getting Started with Oracle to Azure PostgreSQL migrations (Compete) #
+---
 
 **Introduction**
 
-In this lab you will start with creating an Azure Database for PostgreSQL in your own Azure Subscription. Once the service is running, you connect to the server using pgAdmin tool, and work with some basic commands which articulates how and end-to-end Oracle to Azure Database for PostgreSQL migration:
-* Assess the source Oracle database using ora2pg
+In this lab you will start with logging into the lab environment. Once this is done, we are going to go through three exercises that combined, will deploy end-to-end migration. And in the end, use cases discussions will take place.
+* Exercise 1: Assess the source Oracle database using ora2pg
 
-* Migrating an Oracle database to Azure Database for PostgreSQL
+* Exercise 2: Migrate an Oracle database to Azure Database for PostgreSQL
 
-* Use cases and patterns discussion 
+* Exercise 3: Use cases discussion 
 
   
 
@@ -30,20 +30,20 @@ At the end of this lab, you will be able to:
 
   
 
-**Logon Information**
+**Logging into the lab environment **
 
-Use the following credentials to login into the lab environment
+* Log into the lab using your **corporate credentials**
 
-* Username: XXXXX
+* Go to the top left hand side lightning and select "ctrl+alt+del"
 
-* Password: YYYY
+* Go to the top left hand side lightning again and select "Type Text" -> "Type Password"
 
   
 
 
-###  Exercise 1: Assess the Oracle source database ###
+###  Exercise 1: Assess an Oracle source database ###
 
-The steps in this exercise covers how to assess the cost and effort of an Oracle to Azure Database for PostgreSQL migration. The attendees are going to execute the assessment using ora2pg (tool) via cmd and analyze the result of the report.
+The steps in this exercise will demonstrate how to assess an Oracle database to understand cost and effort of an Azure Database for PostgreSQL migration. The attendees are going to execute the assessment using **ora2pg** (tool) via *cmd* and analyze the result of the report.
 
 This exercise should take no longer than 5-7 min.
 
@@ -51,7 +51,9 @@ First, let’s get familiar with the ora2pg tool:
 
 1. ora2pg is installed in your c:\ directory
 
-   IMAGE HERE
+   ![](C:\Users\pabereng\Documents\GitHub\lab303\IMG\c_dir.jpg)
+
+   
 
 2. Navigate to c:\ora2pg and right click on ora2pg_dist.conf and select “edit with Notepad++”
 
