@@ -47,31 +47,37 @@ The steps in this exercise will demonstrate how to assess an Oracle database to 
 
 This exercise should take no longer than 5-7 min.
 
-First, let’s get familiar with the ora2pg tool:
+First, let’s understand **ora2pg** and its config file:
 
-1. ora2pg is installed in your c:\ directory
+1. **ora2pg** is installed in your c:\ directory
 
    ![](https://github.com/berenguel/lab303/blob/master/IMG/c_dir.jpg)
 
    
 
-2. Navigate to c:\ora2pg and right click on ora2pg_dist.conf and select “edit with Notepad++”
+2. Everything that is possible to do with **ora2pg **, is done via command line. The commands that you execute are going to be respecting what is written in the default configuration file, until you tell otherwise. The default config file is called ora2pg_dist.conf and is under your **ora2pg** installation:
 
-   IMAGE HERE
+   ~~~
+   Navigate to c:\ora2pg 
+   Edit ora2pg_dist.conf with Notepad++
+   ~~~
 
-3. Right-click to open the file ora2pg_hr.conf. This is the configuration file that should be used for this
-   lab.
+   
 
-   IMAGE HERE
+3. For this lab, we are going to use ora2pg_hr.conf
+	~~~
+   Navigate to c:\ora2pg 
+   Edit ora2pg_dist.conf with Notepad++
+	~~~
 
-   Second, let’s create the migration project structure:
+Now that you are familiar with how **ora2pg** works,  as a second step, let’s create the migration project structure, as this is the easiest way of organizing the migration process:
 
-   1. Open windows command prompt or “**cmd**”. Go to Windows Menu on the bottom left-hand side of your screen and type “**cmd**” or go to search and type “**cmd**”.
+      1. Open windows command prompt or “**cmd**”. 
 
-   2. Navigate to the ora2pg folder by typing:
+      2. Run
 
 ~~~
-      c:\ora2pg
+     cd c:\ora2pg
 ~~~
 
    3. Run the command below:
@@ -81,30 +87,22 @@ First, let’s get familiar with the ora2pg tool:
 ~~~
 
 
-   ​	The output should be as following:
+   ​The output should be as following:
 
-   ​	IMAGE HERE
+   	![](https://github.com/berenguel/lab303/blob/master/IMG/migration_template.jpg)
 
 
-
-4. Using the GUI, check that the folder structure was created properly:
-
-   
-
-   IMAGE HERE
-
-   
 
 Third, let’s run the assessment:
 
-1. Go back to the “**cmd**” window. In case you closed: Open windows command prompt or “**cmd**”. Go to Windows Menu on the bottom left-hand side of your screen and type “**cmd**” or go to search and type “**cmd**”.
+1. Go back to the “**cmd**” window. 
 
 2. Navigate to the hr_migration project folder by typing:
 ~~~
 cd c:\ts303\hr_migration
 ~~~
 
-3. Run the following set of commands:
+3. Run the following set of commands on cmd:
 
 ~~~
 ora2pg -t SHOW_TABLE -c c:\ora2pg\ora2pg_hr.conf > c:\ts303\hr_migration\reports\tables.txt
@@ -115,13 +113,17 @@ ora2pg -t SHOW_REPORT -c c:\ora2pg\ora2pg_hr.conf –-cost_unit_value 10 --dump_
 
 
 
-IMAGE HERE
+![](https://github.com/berenguel/lab303/blob/master/IMG/assessment_run.jpg)
 
 
 
-4. Check the report results on the migration project folder by navigating to c:\ts303\hr_migration\reports\ and double click on report.html to open it in the browser:
+4. Check the report results:
 
-   IMAGE HERE
+   Navigate to c:\ts303\hr_migration\reports\ 
+
+   Double click on report.html to open it in the browser:
+
+   
 
 
 ~~~
