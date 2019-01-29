@@ -51,7 +51,7 @@ First, let’s get familiar with the ora2pg tool:
 
 1. ora2pg is installed in your c:\ directory
 
-   ![](C:\Users\pabereng\Documents\GitHub\lab303\IMG\c_dir.jpg)
+   ![](https://github.com/berenguel/lab303/blob/master/IMG/c_dir.jpg)
 
    
 
