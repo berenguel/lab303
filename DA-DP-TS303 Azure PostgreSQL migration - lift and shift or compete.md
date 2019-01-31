@@ -47,83 +47,71 @@ The steps in this exercise will demonstrate how to assess an Oracle database to 
 
 This exercise should take no longer than 5-7 min.
 
-First, let’s understand **ora2pg** and its config file:
+1. First, let’s understand **ora2pg** how ora2pg works. **ora2pg** is installed in your C:\ directory :
 
-1. **ora2pg** is installed in your c:\ directory
+**ora2pg ** relies on its powerful APIs which you can invoke via command line. The commands that you execute are going to be depending on what is written in the *default configuration file*, unless you tell otherwise. The *default config file* is called ora2pg_dist.conf and is under your **C:\ora2pg** installation:
 
-   ![](https://github.com/berenguel/lab303/blob/master/IMG/c_dir.jpg)
+​	TASK: 
 
-   
+​		a) Navigate to C:\ora2pg 
 
-2. Everything that is possible to do with **ora2pg **, is done via command line. The commands that you execute are going to be respecting what is written in the default configuration file, until you tell otherwise. The default config file is called ora2pg_dist.conf and is under your **ora2pg** installation:
+​		b) Open both ora2pg_dist.conf and ora2pg_hr.conf with Notepad++  
 
-   ~~~
-   Navigate to c:\ora2pg 
-   Edit ora2pg_dist.conf with Notepad++
-   ~~~
+​		(right click on the file and select "Edit with Notepad++")
 
-   
+2. Now that you are familiar with how **ora2pg** works,  let’s create the migration project structure, as this is the easiest way of organizing the migration process:
 
-3. For this lab, we are going to use ora2pg_hr.conf
-	~~~
-   Navigate to c:\ora2pg 
-   Edit ora2pg_dist.conf with Notepad++
-	~~~
+​	TASK: 
 
-Now that you are familiar with how **ora2pg** works,  as a second step, let’s create the migration project structure, as this is the easiest way of organizing the migration process:
-
-      1. Open windows command prompt or “**cmd**”. 
-
-      2. Run
+​		a)  On Windows Command Prompt or “**cmd**”,  navigate to ora2pg folder
+​		b)  Run the command to create a migration template
+​			
 
 ~~~
-     cd c:\ora2pg
+cd c:\ora2pg
 ~~~
-
-   3. Run the command below:
-
 ~~~
-      ora2pg --project_base c:\ts303 -c ora2pg_hr.conf –init_project hr_migration
+ora2pg --project_base c:\ts303 -c ora2pg_hr.conf –-init_project hr_migration
 ~~~
 
 
-   ​The output should be as following:
 
-   	![](https://github.com/berenguel/lab303/blob/master/IMG/migration_template.jpg)
+3. Let’s run the assessment:
 
+   ​	TASK:
 
+   ​		a) on "**cmd**", navigate to the hr_migration folder
 
-Third, let’s run the assessment:
+   ​		b) Run he assessment commands
 
-1. Go back to the “**cmd**” window. 
-
-2. Navigate to the hr_migration project folder by typing:
 ~~~
 cd c:\ts303\hr_migration
 ~~~
 
-3. Run the following set of commands on cmd:
-
 ~~~
 ora2pg -t SHOW_TABLE -c c:\ora2pg\ora2pg_hr.conf > c:\ts303\hr_migration\reports\tables.txt
+~~~
+~~~
 ora2pg -t SHOW_COLUMN -c c:\ora2pg\ora2pg_hr.conf > c:\ts303\hr_migration\reports\columns.txt
+~~~
+~~~
 ora2pg -t SHOW_REPORT -c c:\ora2pg\ora2pg_hr.conf --dump_as_html --estimate_cost > c:\ts303\hr_migration\reports\report.html
+~~~
+~~~
 ora2pg -t SHOW_REPORT -c c:\ora2pg\ora2pg_hr.conf –-cost_unit_value 10 --dump_as_html --estimate_cost > c:\ts303\hr_migration\reports\report2.html 
 ~~~
 
 
 
-![](https://github.com/berenguel/lab303/blob/master/IMG/assessment_run.jpg)
-
-
-
 4. Check the report results:
 
-   Navigate to c:\ts303\hr_migration\reports\ 
+   TASK:
 
-   Double click on report.html to open it in the browser:
+   a) Navigate to c:\ts303\hr_migration\reports\ 
 
-   
+   b) Double click on report.html to open it in the browser, it should show as follow:
+
+
 
 
 ~~~
@@ -150,11 +138,13 @@ Migration levels:
 
 
 
-**Summary:** In this exercise, you learnt how to assess an Oracle database and understand what the complexity is for the migration to Azure Database for PostgreSQL. You also learnt this is step 1 of end-to-end migration project.
+**Summary:** In this exercise, you learnt how to assess an Oracle database and understand what the complexity is for the migration to Azure Database for PostgreSQL. You also learnt this is step 1 of an end-to-end migration project.
+
+
 
 ### Exercise 2: Migrate an Oracle source database to Azure Database for PostgreSQL ###
 
-The steps in this exercise covers how to migrate an Oracle database to Azure Database for PostgreSQL. The attendees are going to export the Oracle database data and code using ora2pg, fix some common migration problems and import the fixed data, ddls and code into Azure Database for PostgreSQL. This exercise should take no longer than 30 min.
+The steps in this exercise will demonstrate how to migrate an Oracle database to Azure Database for PostgreSQL. The attendees are going to export the Oracle database objects and code using ora2pg, fix some common migration problems and import the fixed objects and data into Azure Database for PostgreSQL. This exercise should take no longer than 30 min.
 
 1. Export all the objects categories by running the following commands on cmd:
 
