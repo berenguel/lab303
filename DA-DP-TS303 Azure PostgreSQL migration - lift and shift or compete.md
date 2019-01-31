@@ -1,4 +1,4 @@
-# Getting Started with Oracle to Azure PostgreSQL migrations (Compete) #
+ Getting Started with Oracle to Azure PostgreSQL migrations (Compete) 
 ---
 
 **Introduction**
@@ -73,7 +73,7 @@ This exercise should take no longer than 5-7 min.
 
   - [x] Task:
 
-     - On "**cmd**", navigate to the hr_migration folder
+     - On Windows Command Prompt or "**cmd**", navigate to the hr_migration folder
      - Run the following sequence of assessment commands
 
 ~~~
@@ -97,14 +97,13 @@ ora2pg -t SHOW_REPORT -c c:\ora2pg\ora2pg_hr.conf –-cost_unit_value 10 --dump_
 
 4. Check the report results:
 
-   TASK:
+- [x] Task:
 
-   a) Navigate to c:\ts303\hr_migration\reports\ 
+   - Navigate to c:\ts303\hr_migration\reports\  via Windows folders (UI)
 
-   b) Double click on report.html to open it in the browser, it should show as follow:
+   - Double click on report.html to open it in the browser (Internet Explorer)
 
-
-
+     
 
 ~~~
 Migration levels:
@@ -138,44 +137,129 @@ Migration levels:
 
 The steps in this exercise will demonstrate how to migrate an Oracle database to Azure Database for PostgreSQL. The attendees are going to export the Oracle database objects and code using ora2pg, fix some common migration problems and import the fixed objects and data into Azure Database for PostgreSQL. This exercise should take no longer than 30 min.
 
-1. Export all the objects categories by running the following commands on cmd:
+1. Let's setup the Azure Database for PostgreSQL
+
+   - [x] Task:
+
+   - Connect to the Azure Subscription via browser (Internet Explorer)
+
+   - Click on "All resources" - the lab303pg Azure Database for PostgreSQL is already set
+
+   - Navigate to the "Connection Security" blade make sure the "Firewall rules" are properly set, as following:
+
+     ​	Allow access to Azure services ON
+
+     ​	Enforce SSL Connection DISABLED
+
+   - Click Save
+
+     
+
+2. Let's connect to pgAdmin4 via browser and work on the database settings:
+
+   - [x] Task:
+
+   - Go to the "Windows" button on the bottom left-hand side of your screen
+   - Click on pgAdmin 4 v4 (look for an elephant)
+   - The connection with the PostgreSQL Server should be already set, so click on it to expand and connect
+   - Expand the "Databases(3)" blade and right-click on "postgres" and then "Query Tool"
+   - Run the following command:
+
+   ```
+   --@postgresql
+   CREATE DATABASE lab303;
+   ```
+
+   - Expand the "Databases(4)" blade and right-click on "lab303" and then "Query Tool"
+   - Run the following commands:
+
+   ~~~
+   --@lab303
+   CREATE SCHEMA hr;
+   CREATE ROLE hr LOGIN PASSWORD 'test303';
+   GRANT CONNECT ON DATABASE lab303 TO hr;
+   GRANT ALL PRIVILEGES ON DATABASE lab303 TO hr;
+   GRANT USAGE ON SCHEMA hr TO hr;
+   ALTER SCHEMA hr OWNER TO hr;
+   ~~~
+
+After configuring the Azure Database for PostgreSQL equivalent of the Oracle environment, lets export the Oracle schema.
+
+3. Oracle database Objects export:
+
+   - [x] Task:
+
+   - Go back to **cmd**. 
+   - Export all the objects categories by running the following commands:
 
 ~~~
-   ora2pg -t DBLINK -p -o dblink.sql -b %namespace%/schema/dblinks -c %namespace%/config/ora2pg.conf
+cd c:\ora2pg
+~~~
 
-   ora2pg -t DIRECTORY -p -o directory.sql -b %namespace%/schema/directories -c %namespace%/config/ora2pg.conf
+~~~
+ora2pg -t DBLINK -p -o dblink.sql -b C:\ts303\hr_migration\schema\dblinks -c C:\ora2pg\ora2pg_hr.conf
+~~~
 
-   ora2pg -p -t FUNCTION -o functions2.sql -b %namespace%/schema/functions -c %namespace%/config/ora2pg.conf
+~~~
+ora2pg -t DIRECTORY -p -o directory.sql -b C:\ts303\hr_migration\schema\directories -c C:\ora2pg\ora2pg_hr.conf
+~~~
 
-   ora2pg -t GRANT -o grants.sql -b %namespace%/schema/grants -c %namespace%/config/ora2pg.conf
+~~~
+ora2pg -p -t FUNCTION -o functions2.sql -b C:\ts303\hr_migration\schema\functions -c C:\ora2pg\ora2pg_hr.conf
+~~~
 
-   ora2pg -t MVIEW -o mview.sql -b %namespace%/schema/mviews -c %namespace%/config/ora2pg.conf
+~~~
+ora2pg -t GRANT -o grants.sql -b C:\ts303\hr_migration\schema\grants -c C:\ora2pg\ora2pg_hr.conf
+~~~
 
-   ora2pg -p -t PACKAGE -o packages.sql -b %namespace%/schema/packages -c %namespace%/config/ora2pg.conf
+~~~
+ora2pg -t MVIEW -o mview.sql -b C:\ts303\hr_migration\schema\mviews -c C:\ora2pg\ora2pg_hr.conf
+~~~
 
-   ora2pg -p -t PARTITION -o partitions.sql -b %namespace%/schema/partitions -c %namespace%/config/ora2pg.conf
+~~~
+ora2pg -p -t PACKAGE -o packages.sql -b C:\ts303\hr_migration\schema\packages -c C:\ora2pg\ora2pg_hr.conf
+~~~
 
-   ora2pg -p -t PROCEDURE -o procs.sql -b %namespace%/schema/procedures -c %namespace%/config/ora2pg.conf
+~~~
+ora2pg -p -t PARTITION -o partitions.sql -b C:\ts303\hr_migration\schema\partitions -c C:\ora2pg\ora2pg_hr.conf
+~~~
 
-   ora2pg -t SEQUENCE -o sequences.sql -b %namespace%/schema/sequences -c %namespace%/config/ora2pg.conf
+~~~
+ora2pg -p -t PROCEDURE -o procs.sql -b C:\ts303\hr_migration\schema\procedures -c C:\ora2pg\ora2pg_hr.conf
+~~~
 
-   ora2pg -p -t SYNONYM -o synonym.sql -b %namespace%/schema/synonyms -c %namespace%/config/ora2pg.conf
+~~~
+ora2pg -t SEQUENCE -o sequences.sql -b C:\ts303\hr_migration\schema\sequences -c C:\ora2pg\ora2pg_hr.conf
+~~~
 
-   ora2pg -t TABLE -o table.sql -b %namespace%/schema/tables -c %namespace%/config/ora2pg.conf
+~~~
+ora2pg -p -t SYNONYM -o synonym.sql -b C:\ts303\hr_migration\schema\synonyms -c C:\ora2pg\ora2pg_hr.conf
+~~~
 
-   ora2pg -t TABLESPACE -o tablespaces.sql -b %namespace%/schema/tablespaces -c %namespace%/config/ora2pg.conf
+~~~
+ora2pg -t TABLE -o table.sql -b C:\ts303\hr_migration\schema\tables -c C:\ora2pg\ora2pg_hr.conf
+~~~
 
-   ora2pg -p -t TRIGGER -o triggers.sql -b %namespace%/schema/triggers -c %namespace%/config/ora2pg.conf
+~~~
+ora2pg -t TABLESPACE -o tablespaces.sql -b C:\ts303\hr_migration\schema\tablespaces -c C:\ora2pg\ora2pg_hr.conf
+~~~
 
-   ora2pg -p -t TYPE -o types.sql -b %namespace%/schema/types -c %namespace%/config/ora2pg.conf
+~~~
+ora2pg -p -t TRIGGER -o triggers.sql -b C:\ts303\hr_migration\schema\triggers -c C:\ora2pg\ora2pg_hr.conf
+~~~
 
-   ora2pg -p -t VIEW -o views.sql -b %namespace%/schema/views -c %namespace%/config/ora2pg.conf
+~~~
+ora2pg -p -t TYPE -o types.sql -b C:\ts303\hr_migration\schema\types -c C:\ora2pg\ora2pg_hr.conf
+~~~
+
+~~~
+ora2pg -p -t VIEW -o views.sql -b C:\ts303\hr_migration\schema\views -c C:\ora2pg\ora2pg_hr.conf
 ~~~
 
 
    2. Finally export the data, by running the following command on cmd
 ~~~
-   ora2pg -t COPY -o data.sql -b %namespace/data -c %namespace/config/ora2pg.conf
+ora2pg -t COPY -o data.sql -b C:\ts303\hr_migration\schema\data -c C:\ora2pg\ora2pg_hr.conf
 ~~~
 
 
