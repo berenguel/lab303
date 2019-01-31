@@ -1,4 +1,4 @@
- Getting Started with Oracle to Azure PostgreSQL migrations (Compete) 
+Getting Started with Oracle to Azure PostgreSQL migrations (Compete) 
 ---
 
 **Introduction**
@@ -168,6 +168,10 @@ The steps in this exercise will demonstrate how to migrate an Oracle database to
    ```
    --@postgresql
    CREATE DATABASE lab303;
+   CREATE ROLE HR LOGIN PASSWORD 'test303';
+   GRANT CONNECT ON DATABASE lab303 TO HR;
+   GRANT ALL PRIVILEGES ON DATABASE lab303 TO HR;
+   
    ```
 
    - Expand the "Databases(4)" blade and right-click on "lab303" and then "Query Tool"
@@ -175,12 +179,10 @@ The steps in this exercise will demonstrate how to migrate an Oracle database to
 
    ~~~
    --@lab303
-   CREATE SCHEMA hr;
-   CREATE ROLE hr LOGIN PASSWORD 'test303';
-   GRANT CONNECT ON DATABASE lab303 TO hr;
-   GRANT ALL PRIVILEGES ON DATABASE lab303 TO hr;
-   GRANT USAGE ON SCHEMA hr TO hr;
-   ALTER SCHEMA hr OWNER TO hr;
+   CREATE SCHEMA HR;
+   GRANT USAGE ON SCHEMA HR TO HR;
+   GRANT HR TO pgadmin;
+   ALTER SCHEMA HR OWNER TO HR;
    ~~~
 
 After configuring the Azure Database for PostgreSQL equivalent of the Oracle environment, lets export the Oracle schema.
@@ -195,112 +197,80 @@ After configuring the Azure Database for PostgreSQL equivalent of the Oracle env
 ~~~
 cd c:\ora2pg
 ~~~
-
-~~~
-ora2pg -t DBLINK -p -o dblink.sql -b C:\ts303\hr_migration\schema\dblinks -c C:\ora2pg\ora2pg_hr.conf
-~~~
-
-~~~
-ora2pg -t DIRECTORY -p -o directory.sql -b C:\ts303\hr_migration\schema\directories -c C:\ora2pg\ora2pg_hr.conf
-~~~
-
-~~~
-ora2pg -p -t FUNCTION -o functions2.sql -b C:\ts303\hr_migration\schema\functions -c C:\ora2pg\ora2pg_hr.conf
-~~~
-
-~~~
-ora2pg -t GRANT -o grants.sql -b C:\ts303\hr_migration\schema\grants -c C:\ora2pg\ora2pg_hr.conf
-~~~
-
-~~~
-ora2pg -t MVIEW -o mview.sql -b C:\ts303\hr_migration\schema\mviews -c C:\ora2pg\ora2pg_hr.conf
-~~~
-
-~~~
-ora2pg -p -t PACKAGE -o packages.sql -b C:\ts303\hr_migration\schema\packages -c C:\ora2pg\ora2pg_hr.conf
-~~~
-
-~~~
-ora2pg -p -t PARTITION -o partitions.sql -b C:\ts303\hr_migration\schema\partitions -c C:\ora2pg\ora2pg_hr.conf
-~~~
-
 ~~~
 ora2pg -p -t PROCEDURE -o procs.sql -b C:\ts303\hr_migration\schema\procedures -c C:\ora2pg\ora2pg_hr.conf
 ~~~
-
 ~~~
 ora2pg -t SEQUENCE -o sequences.sql -b C:\ts303\hr_migration\schema\sequences -c C:\ora2pg\ora2pg_hr.conf
 ~~~
-
-~~~
-ora2pg -p -t SYNONYM -o synonym.sql -b C:\ts303\hr_migration\schema\synonyms -c C:\ora2pg\ora2pg_hr.conf
-~~~
-
 ~~~
 ora2pg -t TABLE -o table.sql -b C:\ts303\hr_migration\schema\tables -c C:\ora2pg\ora2pg_hr.conf
 ~~~
-
-~~~
-ora2pg -t TABLESPACE -o tablespaces.sql -b C:\ts303\hr_migration\schema\tablespaces -c C:\ora2pg\ora2pg_hr.conf
-~~~
-
 ~~~
 ora2pg -p -t TRIGGER -o triggers.sql -b C:\ts303\hr_migration\schema\triggers -c C:\ora2pg\ora2pg_hr.conf
 ~~~
-
-~~~
-ora2pg -p -t TYPE -o types.sql -b C:\ts303\hr_migration\schema\types -c C:\ora2pg\ora2pg_hr.conf
-~~~
-
 ~~~
 ora2pg -p -t VIEW -o views.sql -b C:\ts303\hr_migration\schema\views -c C:\ora2pg\ora2pg_hr.conf
 ~~~
 
+4. Oracle Data export:
+   - [x] Task:
 
-   2. Finally export the data, by running the following command on cmd
 ~~~
-ora2pg -t COPY -o data.sql -b C:\ts303\hr_migration\schema\data -c C:\ora2pg\ora2pg_hr.conf
+ora2pg -t COPY -o data.sql -b C:\ts303\hr_migration\data -c C:\ora2pg\ora2pg_hr.conf
 ~~~
 
 
-   3. Perform the manual fixes as following:
 
-   a) DataType change
+5. Run files against the Azure Database for PostgreSQL server, to figure out the errors (password: test303)
 
-   b) Synonym
-
-  4. Prepare the Azure Database for PosgreSQL
-
-  5. Run all files against the Azure Database for PostgreSQL server
+   - [x] Task:
 
 
 ~~~
-   psql -f %namespace%\schema\sequences\sequence.sql -h server1-server.postgres.database.azure.com -p 5432 -U username@server1-server -d database -L %namespace%\ schema\sequences\create_sequences.log
-
-   psql -f %namespace%\schema\tables\table.sql -h server1-server.postgres.database.azure.com -p 5432 -U username@server1-server -d database -L %namespace%\schema\tables\create_table.log
-
-psql -f %namespace%\data\table1.sql -h server1-server.postgres.database.azure.com -p 5432 -U username@server1-server -d database -L %namespace%\data\table1.log
+cd C:\Program Files (x86)\pgAdmin 4\v4\runtime
+~~~
+~~~
+psql -f C:\ts303\hr_migration\schema\tables\table.sql -h lab303pg.postgres.database.azure.com -p 5432 -U hr@lab303pg -d lab303 -L C:\ts303\hr_migration\schema\tables\create_table.log
+~~~
+~~~
+psql -f C:\ts303\hr_migration\schema\sequences\sequences.sql -h lab303pg.postgres.database.azure.com -p 5432 -U hr@lab303pg -d lab303 -L C:\ts303\hr_migration\schema\sequences\create_sequences.log
+~~~
+~~~
+psql -f C:\ts303\hr_migration\schema\procedures\procs.sql -h lab303pg.postgres.database.azure.com -p 5432 -U hr@lab303pg -d lab303 -L C:\ts303\hr_migration\schema\procedures\create_procedure.log
+~~~
+~~~
+psql -f C:\ts303\hr_migration\schema\triggers\triggers.sql -h lab303pg.postgres.database.azure.com -p 5432 -U hr@lab303pg -d lab303 -L C:\ts303\hr_migration\schema\triggers\create_trigger.log
+~~~
+~~~
+psql -f C:\ts303\hr_migration\schema\views\views.sql -h lab303pg.postgres.database.azure.com -p 5432 -U hr@lab303pg -d lab303 -L C:\ts303\hr_migration\schema\views\create_view.log
+~~~
+~~~
+psql -f C:\ts303\hr_migration\data\data.sql -h lab303pg.postgres.database.azure.com -p 5432 -U hr@lab303pg -d lab303 -L C:\ts303\hr_migration\data\data_import.log 
 ~~~
 
-During the compilation of files, check the logs and correct the necessary syntaxes that ora2pg was unable to convert out of the box.
+7. Run Migration validation
 
-   6..       Run Migration validation
 ~~~
-   ora2pg -t TEST -c config/ora2pg.conf > migration_diff.txt
+   ora2pg -t TEST -c C:\ora2pg\ora2pg_hr.conf > migration_diff.txt
 ~~~
 
-**Summary:** In this exercise, you learnt how to deploy an end-to-end migration from Oracle to Azure Database for PostgreSQL. In addition to that, you learnt the approach for this kind of migrations and how they can quickly executed for customers
+
+
+8. Typical Oracle to Azure Database for PostgreSQL fixes:
+
+   [https://microsoft.sharepoint.com/:w:/r/teams/sqlaa/jumpstart/_layouts/15/Doc.aspx?sourcedoc=%7B18D0D9BE-8303-4791-83DA-B02591AD261B%7D&file=Oracle%20to%20Azure%20PostgreSQL%20Migration%20Workarounds%20v1.0.docx&action=default&mobileredirect=true](Link here)
+
+**Summary:** In this exercise, you learnt how to deploy an end-to-end migration from Oracle to Azure Database for PostgreSQL. In addition to that, you learnt the approach for this kind of migrations and how they can quickly executed for customers.
 
   
 
-   ### Exercise 3: Use Case and Pattern Discussion ###
-
-   In this exercise, you will understand what the use cases for this migration.
+   ### Exercise 3: Use cases discussion ###
 
    1.       Archiving
 
-   2.       Single Tenant
+   2.       Single Tenant apps
 
-   3.       MultiTenant
+   3.       Multi-Tenant
 
-**Summary**: In this exercise, you learnt how the simple steps deployed in this lab can easily help customers on migrating from Oracle to Azure Database for PostgreSQL
+**Summary**: In this exercise, you learnt how the simple steps deployed in this lab can easily help customers on migrating from Oracle to Azure Database for PostgreSQL for several use cases.
