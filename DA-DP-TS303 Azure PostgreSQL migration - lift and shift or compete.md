@@ -49,40 +49,32 @@ This exercise should take no longer than 5-7 min.
 
 1. First, let’s understand **ora2pg** how ora2pg works. **ora2pg** is installed in your C:\ directory :
 
-**ora2pg ** relies on its powerful APIs which you can invoke via command line. The commands that you execute are going to be depending on what is written in the *default configuration file*, unless you tell otherwise. The *default config file* is called ora2pg_dist.conf and is under your **C:\ora2pg** installation:
+    **ora2pg ** relies on its powerful APIs which you can invoke via command line. The commands that you execute are going to be depending on what is written in the *default configuration file*, unless you tell otherwise. The *default config file* is called ora2pg_dist.conf and is under your **C:\ora2pg** installation:
 
-​	TASK: 
-
-​		a) Navigate to C:\ora2pg 
-
-​		b) Open both ora2pg_dist.conf and ora2pg_hr.conf with Notepad++  
-
-​		(right click on the file and select "Edit with Notepad++")
+- [x] Task:
+   - Navigate to C:\ora2pg using via Windows folders (UI)
+   - Open both ora2pg_dist.conf and ora2pg_hr.conf with Notepad++   -> right click on the file and select "Edit with Notepad++"
 
 2. Now that you are familiar with how **ora2pg** works,  let’s create the migration project structure, as this is the easiest way of organizing the migration process:
 
-​	TASK: 
+ - [x] Task:
+     - On Windows Command Prompt or “**cmd**”,  navigate to ora2pg folder
+     - Run the command to create a migration template
 
-​		a)  On Windows Command Prompt or “**cmd**”,  navigate to ora2pg folder
-​		b)  Run the command to create a migration template
-​			
-
-~~~
-cd c:\ora2pg
-~~~
-~~~
-ora2pg --project_base c:\ts303 -c ora2pg_hr.conf –-init_project hr_migration
-~~~
-
-
+        
+	~~~
+	cd c:\ora2pg
+	~~~
+	~~~
+	ora2pg --project_base c:\ts303 -c ora2pg_hr.conf –-init_project 		hr_migration
+	~~~
 
 3. Let’s run the assessment:
 
-   ​	TASK:
+  - [x] Task:
 
-   ​		a) on "**cmd**", navigate to the hr_migration folder
-
-   ​		b) Run he assessment commands
+     - On "**cmd**", navigate to the hr_migration folder
+     - Run the following sequence of assessment commands
 
 ~~~
 cd c:\ts303\hr_migration
