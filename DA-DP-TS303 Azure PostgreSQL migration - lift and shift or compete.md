@@ -8,7 +8,7 @@ In this lab you will start with logging into the lab environment. Once this is d
 
 * Exercise 2: Migrate an Oracle database to Azure Database for PostgreSQL
 
-* Exercise 3: Use cases discussion 
+* Exercise 3: Test the migration 
 
   
 
@@ -249,28 +249,23 @@ psql -f C:\ts303\hr_migration\schema\views\views.sql -h lab303pg.postgres.databa
 psql -f C:\ts303\hr_migration\data\data.sql -h lab303pg.postgres.database.azure.com -p 5432 -U hr@lab303pg -d lab303 -L C:\ts303\hr_migration\data\data_import.log 
 ~~~
 
-7. Run Migration validation
+Typical Oracle to Azure Database for PostgreSQL fixes:
 
-~~~
-   ora2pg -t TEST -c C:\ora2pg\ora2pg_hr.conf > migration_diff.txt
-~~~
-
-
-
-8. Typical Oracle to Azure Database for PostgreSQL fixes:
-
-   [https://microsoft.sharepoint.com/:w:/r/teams/sqlaa/jumpstart/_layouts/15/Doc.aspx?sourcedoc=%7B18D0D9BE-8303-4791-83DA-B02591AD261B%7D&file=Oracle%20to%20Azure%20PostgreSQL%20Migration%20Workarounds%20v1.0.docx&action=default&mobileredirect=true](Link here)
+8. [https://microsoft.sharepoint.com/:w:/r/teams/sqlaa/jumpstart/_layouts/15/Doc.aspx?sourcedoc=%7B18D0D9BE-8303-4791-83DA-B02591AD261B%7D&file=Oracle%20to%20Azure%20PostgreSQL%20Migration%20Workarounds%20v1.0.docx&action=default&mobileredirect=true](Link here)
 
 **Summary:** In this exercise, you learnt how to deploy an end-to-end migration from Oracle to Azure Database for PostgreSQL. In addition to that, you learnt the approach for this kind of migrations and how they can quickly executed for customers.
 
   
 
-   ### Exercise 3: Use cases discussion ###
+   ### Exercise 3: Migration Testing ###
 
-   1.       Archiving
+      1.       Run Migration validation
 
-   2.       Single Tenant apps
+```
+   ora2pg -t TEST -c C:\ora2pg\ora2pg_hr.conf > migration_diff.txt
+```
 
-   3.       Multi-Tenant
 
-**Summary**: In this exercise, you learnt how the simple steps deployed in this lab can easily help customers on migrating from Oracle to Azure Database for PostgreSQL for several use cases.
+
+**Summary**: In this exercise, you learnt how to easily test the migration from Oracle to Azure Database for PostgreSQL.
+
