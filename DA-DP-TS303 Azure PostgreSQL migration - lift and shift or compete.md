@@ -275,6 +275,12 @@ After configuring the Azure Database for PostgreSQL equivalent of the Oracle env
 
    - [x] Task:
 
+   \o 'C:/ts303/hr_migration/schema/tables/create_table.log'
+
+   \i  'C:/ts303/hr_migration/schema/tables/table.sql'
+
+   
+
 
 ~~~
 \o 'C:/ts303/hr_migration/schema/tables/create_table.log'
