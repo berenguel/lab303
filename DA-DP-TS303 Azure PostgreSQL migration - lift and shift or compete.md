@@ -6,7 +6,7 @@ Getting Started with Oracle to Azure PostgreSQL migrations (Compete)
 In this lab you will start with logging into the lab environment. Once this is done, we are going to go through three exercises that combined, will deploy end-to-end migration. And in the end, use cases discussions will take place.
 * Exercise 1: Assess an Oracle schema using ora2pg
 
-* Exercise 2: Migrate an Oracle database to Azure Database for PostgreSQL
+* Exercise 2: Migrate an Oracle schema to Azure Database for PostgreSQL
 
 * Exercise 3: Test the migration 
 
@@ -122,70 +122,63 @@ Migration levels:
 
 
 
-**Summary:** In this exercise, you learnt how to assess an Oracle schema and understand what the complexity is for the migration to Azure Database for PostgreSQL. You also learnt this is step 1 of an end-to-end migration project.
+**Summary:** In this exercise, you learnt how to assess an Oracle schema and understood how to articulate the migration complexity of a migration to Azure Database for PostgreSQL.
 
 
 
-### Exercise 2: Migrate an Oracle source database to Azure Database for PostgreSQL ###
+### Exercise 2: Migrate an Oracle schema to Azure Database for PostgreSQL ###
 
-The steps in this exercise will demonstrate how to migrate an Oracle database to Azure Database for PostgreSQL. The attendees are going to export the Oracle database objects and code using ora2pg, fix some common migration problems and import the fixed objects and data into Azure Database for PostgreSQL. This exercise should take no longer than 30 min.
+The steps in this exercise will demonstrate how to migrate an Oracle database to Azure Database for PostgreSQL. The attendees are going to export the Oracle database objects and code using ora2pg, fix some common migration problems and import the fixed objects and data into Azure Database for PostgreSQL. This exercise should take no longer than 25 min.
 
 1. Let's setup the Azure Database for PostgreSQL
 
    - [x] Task:
+   - Go to portal.azure.com and pick your Microsoft account
+   - Click on "**Create a Resource**" and type "**Azure Database for PostgreSQL**"
 
-   - Connect to the Azure Subscription via browser (Internet Explorer)
+   ![1549831354860](C:\Users\pabereng\AppData\Roaming\Typora\typora-user-images\1549831354860.png)
 
-   - Click on "All resources" - the lab303pg Azure Database for PostgreSQL is already set
+   
 
-   - Navigate to the "Connection Security" blade make sure the "Firewall rules" are properly set, as following:
+   - Select "**Azure Database for PostgreSQL**" and click on "Create"
 
-     ​	Allow access to Azure services ON
+   - Fill the required information as following:
 
-     ​	Enforce SSL Connection DISABLED
+     Server Name: **lab303pg**
 
-   - Click Save
+     Resource Group: **lab303rg**
+
+     Select Source: **Blank**
+
+     Server admin login name: **pgadmin**
+
+     Password: **LabAdmin303**
+
+     Location: (whatever suits you)
+
+     Version :**10** 
+
+     Pricing Tier: **General Purpose 4 vCore(s)** - default
+
+   
+
+   ![1549833666701](C:\Users\pabereng\AppData\Roaming\Typora\typora-user-images\1549833666701.png)
+
+   
+
+   
+
+   - Click "**Create**"
 
      
 
-2. Let's connect to pgAdmin4 via browser and work on the database settings:
 
-   - [x] Task:
+2. Oracle database Objects export:
 
-   - Go to the "Windows" button on the bottom left-hand side of your screen
-   - Click on pgAdmin 4 v4 (look for an elephant)
-   - The connection with the PostgreSQL Server should be already set, so click on it to expand and connect
-   - Expand the "Databases(3)" blade and right-click on "postgres" and then "Query Tool"
-   - Run the following command:
+- [x] Task:
 
-   ```
-   --@postgresql
-   CREATE DATABASE lab303;
-   CREATE ROLE HR LOGIN PASSWORD 'test303';
-   GRANT CONNECT ON DATABASE lab303 TO HR;
-   GRANT ALL PRIVILEGES ON DATABASE lab303 TO HR;
-   
-   ```
-
-   - Expand the "Databases(4)" blade and right-click on "lab303" and then "Query Tool"
-   - Run the following commands:
-
-   ~~~
-   --@lab303
-   CREATE SCHEMA HR;
-   GRANT USAGE ON SCHEMA HR TO HR;
-   GRANT HR TO pgadmin;
-   ALTER SCHEMA HR OWNER TO HR;
-   ~~~
-
-After configuring the Azure Database for PostgreSQL equivalent of the Oracle environment, lets export the Oracle schema.
-
-3. Oracle database Objects export:
-
-   - [x] Task:
-
-   - Go back to **cmd**. 
-   - Export all the objects categories by running the following commands:
+- Go back to **cmd**. 
+- Export all the objects categories by running the following commands:
 
 ~~~
 cd c:\ora2pg
@@ -206,14 +199,80 @@ ora2pg -p -t TRIGGER -o triggers.sql -b C:\ts303\hr_migration\schema\triggers -c
 ora2pg -p -t VIEW -o views.sql -b C:\ts303\hr_migration\schema\views -c C:\ora2pg\ora2pg_hr.conf
 ~~~
 
-4. Oracle Data export:
-   - [x] Task:
+3. Oracle Data export:
+
+- [x] Task:
 
 ~~~
 ora2pg -t COPY -o data.sql -b C:\ts303\hr_migration\data -c C:\ora2pg\ora2pg_hr.conf
 ~~~
 
 
+
+Configuring the target  "Azure Database for PostgreSQL"  in your Azure Subscription:
+
+Task:
+
+- Go to your Azure Subscription and find your Azure Database for PostgreSQL resource. One of the ways of doing this is by doing the following:
+
+- Click on "**Go to resource**"
+
+![1549832468425](C:\Users\pabereng\AppData\Roaming\Typora\typora-user-images\1549832468425.png)
+
+- Go to the "**Connection Security**" blade make sure the "**Firewall rules**" are properly set, as following:
+
+  ​	Add a new rule: Rule Name: new_rule, Start IP: 1.1.1.1, End IP: 255.255.255.255
+
+  ​	Enforce SSL Connection DISABLED
+
+- Click "Save"
+
+  
+
+  ![1549832443872](C:\Users\pabereng\AppData\Roaming\Typora\typora-user-images\1549832443872.png)
+
+  
+
+  
+
+1. Let's create the Azure Database for PostgreSQL Lab303 database:
+
+   
+
+   - [x] Task:
+
+   
+
+   ```
+   cd C:\Program Files (x86)\pgAdmin\v4\Runtime
+   ```
+
+   ```
+   psql -h lab303pg.postgres.database.azure.com -p 5432 -U   pgadmin@lab303pg -d postgres 
+   ```
+
+   ```
+   --@postgresql
+   CREATE DATABASE lab303;
+   CREATE ROLE HR LOGIN PASSWORD 'test303';
+   GRANT CONNECT ON DATABASE lab303 TO HR;
+   GRANT ALL PRIVILEGES ON DATABASE lab303 TO HR;
+   
+   ```
+
+   ```
+   \c lab303
+   ```
+
+   ```
+   --@lab303
+   CREATE SCHEMA HR;
+   GRANT USAGE ON SCHEMA HR TO HR;
+   GRANT HR TO pgadmin;
+   ALTER SCHEMA HR OWNER TO HR;
+   ```
+
+After configuring the Azure Database for PostgreSQL equivalent of the Oracle environment, lets export the Oracle schema.
 
 5. Run files against the Azure Database for PostgreSQL server, to figure out the errors (password: test303)
 
@@ -246,7 +305,8 @@ Typical Oracle to Azure Database for PostgreSQL fixes:
 
 8. [https://microsoft.sharepoint.com/:w:/r/teams/sqlaa/jumpstart/_layouts/15/Doc.aspx?sourcedoc=%7B18D0D9BE-8303-4791-83DA-B02591AD261B%7D&file=Oracle%20to%20Azure%20PostgreSQL%20Migration%20Workarounds%20v1.0.docx&action=default&mobileredirect=true](Link here)
 
-**Summary:** In this exercise, you learnt how to deploy an end-to-end migration from Oracle to Azure Database for PostgreSQL. In addition to that, you learnt the approach for this kind of migrations and how they can quickly executed for customers.
+**Summary:** In this exercise, you learnt how to deploy the migration of data and schema from
+Oracle to Azure Database for PostgreSQL. 
 
   
 
@@ -260,5 +320,5 @@ Typical Oracle to Azure Database for PostgreSQL fixes:
 
 
 
-**Summary**: In this exercise, you learnt how to easily test the migration from Oracle to Azure Database for PostgreSQL.
+**Summary**: In this exercise, you learnt how to easily test the migration from Oracle to Azure Database for PostgreSQL using ora2pg.
 
