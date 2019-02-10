@@ -136,7 +136,7 @@ The steps in this exercise will demonstrate how to migrate an Oracle database to
    - Go to portal.azure.com and pick your Microsoft account
    - Click on "**Create a Resource**" and type "**Azure Database for PostgreSQL**"
 
-   ![1549831354860](https://github.com/berenguel/lab303/blob/master/IMG/im1.png)
+   ![1549831354860](https://raw.githubusercontent.com/berenguel/lab303/master/IMG/im1.png)
 
    
 
