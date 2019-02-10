@@ -136,7 +136,7 @@ The steps in this exercise will demonstrate how to migrate an Oracle database to
    - Go to portal.azure.com and pick your Microsoft account
    - Click on "**Create a Resource**" and type "**Azure Database for PostgreSQL**"
 
-   ![1549831354860](C:\Users\pabereng\Documents\GitHub\lab303\IMG\im1.PNG)
+   ![1549831354860](https://github.com/berenguel/lab303/blob/master/IMG/im1.png)
 
    
 
@@ -162,7 +162,7 @@ The steps in this exercise will demonstrate how to migrate an Oracle database to
 
    
 
-   ![create-postgresql](C:\Users\pabereng\Documents\GitHub\lab303\IMG\im2.PNG)
+   ![create-postgresql](https://github.com/berenguel/lab303/blob/master/IMG/im2.png)
 
    
 
@@ -217,7 +217,7 @@ ora2pg -t COPY -o data.sql -b C:\ts303\hr_migration\data -c C:\ora2pg\ora2pg_hr.
 
   Click on "**Go to resource**"
 
-![Azure-Postgresql](C:\Users\pabereng\Documents\GitHub\lab303\IMG\im3.png)
+![Azure-Postgresql](https://github.com/berenguel/lab303/blob/master/IMG/im3.png)
 
 - Go to the "**Connection Security**" blade make sure the "**Firewall rules**" are properly set, as following:
 
@@ -229,7 +229,7 @@ ora2pg -t COPY -o data.sql -b C:\ts303\hr_migration\data -c C:\ora2pg\ora2pg_hr.
 
   
 
-  ![1549832443872](C:\Users\pabereng\AppData\Roaming\Typora\typora-user-images\1549832443872.png)
+  ![1549832443872](https://github.com/berenguel/lab303/blob/master/IMG/im4.png)
 
   
 
