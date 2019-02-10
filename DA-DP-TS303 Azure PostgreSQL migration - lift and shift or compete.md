@@ -4,7 +4,7 @@ Getting Started with Oracle to Azure PostgreSQL migrations (Compete)
 **Introduction**
 
 In this lab you will start with logging into the lab environment. Once this is done, we are going to go through three exercises that combined, will deploy end-to-end migration. And in the end, use cases discussions will take place.
-* Exercise 1: Assess the source Oracle database using ora2pg
+* Exercise 1: Assess a source Oracle database using ora2pg
 
 * Exercise 2: Migrate an Oracle database to Azure Database for PostgreSQL
 
