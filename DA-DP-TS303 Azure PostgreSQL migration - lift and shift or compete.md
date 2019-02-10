@@ -55,12 +55,12 @@ This exercise should take no longer than 5 min.
      - Run the command to create a migration template
 
         
-	~~~
-	cd c:\ora2pg
-	~~~
-	~~~
-	ora2pg --project_base c:\ts303 -c ora2pg_hr.conf –-init_project 		hr_migration
-	~~~
+     ~~~
+     cd c:\ora2pg
+     ~~~
+     ~~~
+     ora2pg --project_base c:\ts303 -c ora2pg_hr.conf –-init_project 		hr_migration
+     ~~~
 
 2. Run the assessment:
 
@@ -166,8 +166,6 @@ The steps in this exercise will demonstrate how to migrate an Oracle database to
 
    
 
-   
-
    - Click "**Create**"
 
      
@@ -177,7 +175,7 @@ The steps in this exercise will demonstrate how to migrate an Oracle database to
 
 - [x] Task:
 
-- Go back to **cmd**. 
+- Go back to Windows **cmd** in your lab environment
 - Export all the objects categories by running the following commands:
 
 ~~~
@@ -199,6 +197,8 @@ ora2pg -p -t TRIGGER -o triggers.sql -b C:\ts303\hr_migration\schema\triggers -c
 ora2pg -p -t VIEW -o views.sql -b C:\ts303\hr_migration\schema\views -c C:\ora2pg\ora2pg_hr.conf
 ~~~
 
+
+
 3. Oracle Data export:
 
 - [x] Task:
@@ -209,9 +209,9 @@ ora2pg -t COPY -o data.sql -b C:\ts303\hr_migration\data -c C:\ora2pg\ora2pg_hr.
 
 
 
-Configuring the target  "Azure Database for PostgreSQL"  in your Azure Subscription:
+4. Configuring the target  "Azure Database for PostgreSQL"  in your Azure Subscription:
 
-Task:
+- [x] Task:
 
 - Go to your Azure Subscription and find your Azure Database for PostgreSQL resource. One of the ways of doing this is by doing the following:
 
@@ -235,42 +235,39 @@ Task:
 
   
 
-1. Let's create the Azure Database for PostgreSQL Lab303 database:
+5. Let's create the Azure Database for PostgreSQL **lab303** database:
 
-   
+- [x] Task:
 
-   - [x] Task:
+  Run the following commands to configure the target **lab303** PostgreSQL database:
 
-   
+```
+cd C:\Program Files (x86)\pgAdmin 4\v4\Runtime
+```
+```
+psql -h lab303pg.postgres.database.azure.com -p 5432 -U pgadmin@lab303pg -d postgres 
+```
 
-   ```
-   cd C:\Program Files (x86)\pgAdmin\v4\Runtime
-   ```
+Enter the Password when prompted. The password is: **LabAdmin303**
 
-   ```
-   psql -h lab303pg.postgres.database.azure.com -p 5432 -U   pgadmin@lab303pg -d postgres 
-   ```
+```
+CREATE DATABASE lab303;
+CREATE ROLE HR LOGIN PASSWORD 'test303';
+GRANT CONNECT ON DATABASE lab303 TO HR;
+GRANT ALL PRIVILEGES ON DATABASE lab303 TO HR;
 
-   ```
-   --@postgresql
-   CREATE DATABASE lab303;
-   CREATE ROLE HR LOGIN PASSWORD 'test303';
-   GRANT CONNECT ON DATABASE lab303 TO HR;
-   GRANT ALL PRIVILEGES ON DATABASE lab303 TO HR;
-   
-   ```
+```
 
-   ```
-   \c lab303
-   ```
+```
+\c lab303
+```
 
-   ```
-   --@lab303
-   CREATE SCHEMA HR;
-   GRANT USAGE ON SCHEMA HR TO HR;
-   GRANT HR TO pgadmin;
-   ALTER SCHEMA HR OWNER TO HR;
-   ```
+```
+CREATE SCHEMA HR;
+GRANT USAGE ON SCHEMA HR TO HR;
+GRANT HR TO pgadmin;
+ALTER SCHEMA HR OWNER TO HR;
+```
 
 After configuring the Azure Database for PostgreSQL equivalent of the Oracle environment, lets export the Oracle schema.
 
@@ -280,26 +277,37 @@ After configuring the Azure Database for PostgreSQL equivalent of the Oracle env
 
 
 ~~~
-cd C:\Program Files (x86)\pgAdmin 4\v4\runtime
+\o 'C:\ts303\hr_migration\schema\tables\create_table.log'
 ~~~
 ~~~
-psql -f C:\ts303\hr_migration\schema\tables\table.sql -h lab303pg.postgres.database.azure.com -p 5432 -U hr@lab303pg -d lab303 -L C:\ts303\hr_migration\schema\tables\create_table.log
+\i 'C:\ts303\hr_migration\schema\tables\table.sql'
 ~~~
 ~~~
-psql -f C:\ts303\hr_migration\schema\sequences\sequences.sql -h lab303pg.postgres.database.azure.com -p 5432 -U hr@lab303pg -d lab303 -L C:\ts303\hr_migration\schema\sequences\create_sequences.log
+\o 'C:\ts303\hr_migration\schema\sequences\create_sequences.log'
 ~~~
 ~~~
-psql -f C:\ts303\hr_migration\schema\procedures\procs.sql -h lab303pg.postgres.database.azure.com -p 5432 -U hr@lab303pg -d lab303 -L C:\ts303\hr_migration\schema\procedures\create_procedure.log
+\i 'C:\ts303\hr_migration\schema\tables\sequences.sql'
 ~~~
 ~~~
-psql -f C:\ts303\hr_migration\schema\triggers\triggers.sql -h lab303pg.postgres.database.azure.com -p 5432 -U hr@lab303pg -d lab303 -L C:\ts303\hr_migration\schema\triggers\create_trigger.log
+\o 'C:\ts303\hr_migration\schema\procedures\create_procs.log'
 ~~~
 ~~~
-psql -f C:\ts303\hr_migration\schema\views\views.sql -h lab303pg.postgres.database.azure.com -p 5432 -U hr@lab303pg -d lab303 -L C:\ts303\hr_migration\schema\views\create_view.log
+\i 'C:\ts303\hr_migration\schema\procedures\procs.sql'
 ~~~
 ~~~
-psql -f C:\ts303\hr_migration\data\data.sql -h lab303pg.postgres.database.azure.com -p 5432 -U hr@lab303pg -d lab303 -L C:\ts303\hr_migration\data\data_import.log 
+\o 'C:\ts303\hr_migration\schema\triggers\create_triggers.log'
 ~~~
+~~~
+\i 'C:\ts303\hr_migration\schema\triggers\create_trigger.sql'
+~~~
+~~~
+\o 'C:\ts303\hr_migration\schema\views\create_views.log'
+~~~
+~~~
+\i 'C:\ts303\hr_migration\schema\views\views.sql'
+~~~
+
+
 
 Typical Oracle to Azure Database for PostgreSQL fixes:
 
