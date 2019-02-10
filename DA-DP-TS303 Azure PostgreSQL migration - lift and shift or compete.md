@@ -4,7 +4,7 @@ Getting Started with Oracle to Azure PostgreSQL migrations (Compete)
 **Introduction**
 
 In this lab you will start with logging into the lab environment. Once this is done, we are going to go through three exercises that combined, will deploy end-to-end migration. And in the end, use cases discussions will take place.
-* Exercise 1: Assess a source Oracle database using ora2pg
+* Exercise 1: Assess an Oracle schema using ora2pg
 
 * Exercise 2: Migrate an Oracle database to Azure Database for PostgreSQL
 
@@ -34,31 +34,24 @@ At the end of this lab, you will be able to:
 
 * Log into the lab using your **corporate credentials**
 
-* Go to the top left hand side lightning and select "ctrl+alt+del"
+* Go to the top left-hand side "**Thunderbolt**" and select "**Ctrl+Alt+Del**"
 
-* Go to the top left hand side lightning again and select "Type Text" -> "Type Password"
+* Go to the top left-hand side "**Thunderbolt**" again and select "**Type Text**" -> "**Type Password**"
 
   
 
 
 ###  Exercise 1: Assess an Oracle source database ###
 
-The steps in this exercise will demonstrate how to assess an Oracle database to understand cost and effort of an Azure Database for PostgreSQL migration. The attendees are going to execute the assessment using **ora2pg** (tool) via *cmd* and analyze the result of the report.
+The steps in this exercise will demonstrate how to assess an Oracle database to understand cost and effort of an Azure Database for PostgreSQL migration. You are going to execute the assessment using **ora2pg** (tool) via *cmd* and analyze the result of the report.
 
-This exercise should take no longer than 5-7 min.
+This exercise should take no longer than 5 min.
 
-1. First, let’s understand **ora2pg** how ora2pg works. **ora2pg** is installed in your C:\ directory :
+1. Let's run an assessment
 
-    **ora2pg ** relies on its powerful APIs which you can invoke via command line. The commands that you execute are going to be depending on what is written in the *default configuration file*, unless you tell otherwise. The *default config file* is called ora2pg_dist.conf and is under your **C:\ora2pg** installation:
-
-- [x] Task:
-   - Navigate to C:\ora2pg using via Windows folders (UI)
-   - Open both ora2pg_dist.conf and ora2pg_hr.conf with Notepad++   -> right click on the file and select "Edit with Notepad++"
-
-2. Now that you are familiar with how **ora2pg** works,  let’s create the migration project structure, as this is the easiest way of organizing the migration process:
 
  - [x] Task:
-     - On Windows Command Prompt or “**cmd**”,  navigate to ora2pg folder
+     - On “**cmd**”,  navigate to ora2pg folder
      - Run the command to create a migration template
 
         
@@ -69,11 +62,11 @@ This exercise should take no longer than 5-7 min.
 	ora2pg --project_base c:\ts303 -c ora2pg_hr.conf –-init_project 		hr_migration
 	~~~
 
-3. Let’s run the assessment:
+2. Run the assessment:
 
   - [x] Task:
 
-     - On Windows Command Prompt or "**cmd**", navigate to the hr_migration folder
+     - On "**cmd**", navigate to the hr_migration folder
      - Run the following sequence of assessment commands
 
 ~~~
@@ -95,13 +88,13 @@ ora2pg -t SHOW_REPORT -c c:\ora2pg\ora2pg_hr.conf –-cost_unit_value 10 --dump_
 
 
 
-4. Check the report results:
+3. Check the report results:
 
 - [x] Task:
 
-   - Navigate to c:\ts303\hr_migration\reports\  via Windows folders (UI)
+   - Navigate to **c:\ts303\hr_migration\reports\**  via UI
 
-   - Double click on report.html to open it in the browser (Internet Explorer)
+   - Double click on **report.html** to open the report in your browser
 
      
 
@@ -129,7 +122,7 @@ Migration levels:
 
 
 
-**Summary:** In this exercise, you learnt how to assess an Oracle database and understand what the complexity is for the migration to Azure Database for PostgreSQL. You also learnt this is step 1 of an end-to-end migration project.
+**Summary:** In this exercise, you learnt how to assess an Oracle schema and understand what the complexity is for the migration to Azure Database for PostgreSQL. You also learnt this is step 1 of an end-to-end migration project.
 
 
 
