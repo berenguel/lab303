@@ -279,7 +279,15 @@ After configuring the Azure Database for PostgreSQL equivalent of the Oracle env
 
    \i  'C:/ts303/hr_migration/schema/tables/table.sql'
 
-   
+
+
+
+
+
+
+
+
+
 
 
 ~~~
