@@ -277,34 +277,34 @@ After configuring the Azure Database for PostgreSQL equivalent of the Oracle env
 
 
 ~~~
-\o 'C:\ts303\hr_migration\schema\tables\create_table.log'
+\o 'C:/ts303/hr_migration/schema/tables/create_table.log'
 ~~~
 ~~~
-\i 'C:\ts303\hr_migration\schema\tables\table.sql'
+\i 'C:/ts303/hr_migration/schema/tables/table.sql'
 ~~~
 ~~~
-\o 'C:\ts303\hr_migration\schema\sequences\create_sequences.log'
+\o 'C:/ts303/hr_migration/schema/sequences/create_sequences.log'
 ~~~
 ~~~
-\i 'C:\ts303\hr_migration\schema\tables\sequences.sql'
+\i 'C:/ts303/hr_migration/schema/tables/sequences.sql'
 ~~~
 ~~~
-\o 'C:\ts303\hr_migration\schema\procedures\create_procs.log'
+\o 'C:/ts303/hr_migration/schema/procedures/create_procs.log'
 ~~~
 ~~~
-\i 'C:\ts303\hr_migration\schema\procedures\procs.sql'
+\i 'C:/ts303/hr_migration/schema/procedures/procs.sql'
 ~~~
 ~~~
-\o 'C:\ts303\hr_migration\schema\triggers\create_triggers.log'
+\o 'C:/ts303/hr_migration/schema/triggers/create_triggers.log'
 ~~~
 ~~~
-\i 'C:\ts303\hr_migration\schema\triggers\create_trigger.sql'
+\i 'C:/ts303/hr_migration/schema/triggers/create_trigger.sql'
 ~~~
 ~~~
-\o 'C:\ts303\hr_migration\schema\views\create_views.log'
+\o 'C:/ts303/hr_migration/schema/views/create_views.log'
 ~~~
 ~~~
-\i 'C:\ts303\hr_migration\schema\views\views.sql'
+\i 'C:ts303/hr_migration/schema/views/views.sql'
 ~~~
 
 
