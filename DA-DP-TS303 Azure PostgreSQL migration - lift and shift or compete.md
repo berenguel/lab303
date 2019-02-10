@@ -136,7 +136,7 @@ The steps in this exercise will demonstrate how to migrate an Oracle database to
    - Go to portal.azure.com and pick your Microsoft account
    - Click on "**Create a Resource**" and type "**Azure Database for PostgreSQL**"
 
-   ![1549831354860](C:\Users\pabereng\AppData\Roaming\Typora\typora-user-images\1549831354860.png)
+   ![1549831354860](C:\Users\pabereng\Documents\GitHub\lab303\IMG\im1.PNG)
 
    
 
@@ -162,7 +162,7 @@ The steps in this exercise will demonstrate how to migrate an Oracle database to
 
    
 
-   ![1549833666701](C:\Users\pabereng\AppData\Roaming\Typora\typora-user-images\1549833666701.png)
+   ![create-postgresql](C:\Users\pabereng\Documents\GitHub\lab303\IMG\im2.PNG)
 
    
 
@@ -215,9 +215,9 @@ ora2pg -t COPY -o data.sql -b C:\ts303\hr_migration\data -c C:\ora2pg\ora2pg_hr.
 
 - Go to your Azure Subscription and find your Azure Database for PostgreSQL resource. One of the ways of doing this is by doing the following:
 
-- Click on "**Go to resource**"
+  Click on "**Go to resource**"
 
-![1549832468425](C:\Users\pabereng\AppData\Roaming\Typora\typora-user-images\1549832468425.png)
+![Azure-Postgresql](C:\Users\pabereng\Documents\GitHub\lab303\IMG\im3.png)
 
 - Go to the "**Connection Security**" blade make sure the "**Firewall rules**" are properly set, as following:
 
@@ -271,23 +271,9 @@ ALTER SCHEMA HR OWNER TO HR;
 
 After configuring the Azure Database for PostgreSQL equivalent of the Oracle environment, lets export the Oracle schema.
 
-5. Run files against the Azure Database for PostgreSQL server, to figure out the errors (password: test303)
+6. Run files against the Azure Database for PostgreSQL server, to **import HR Schema**
 
-   - [x] Task:
-
-   \o 'C:/ts303/hr_migration/schema/tables/create_table.log'
-
-   \i  'C:/ts303/hr_migration/schema/tables/table.sql'
-
-
-
-
-
-
-
-
-
-
+- [x] Task:
 
 
 ~~~
@@ -300,7 +286,7 @@ After configuring the Azure Database for PostgreSQL equivalent of the Oracle env
 \o 'C:/ts303/hr_migration/schema/sequences/create_sequences.log'
 ~~~
 ~~~
-\i 'C:/ts303/hr_migration/schema/tables/sequences.sql'
+\i 'C:/ts303/hr_migration/schema/sequences/sequences.sql'
 ~~~
 ~~~
 \o 'C:/ts303/hr_migration/schema/procedures/create_procs.log'
@@ -312,13 +298,13 @@ After configuring the Azure Database for PostgreSQL equivalent of the Oracle env
 \o 'C:/ts303/hr_migration/schema/triggers/create_triggers.log'
 ~~~
 ~~~
-\i 'C:/ts303/hr_migration/schema/triggers/create_trigger.sql'
+\i 'C:/ts303/hr_migration/schema/triggers/triggers.sql'
 ~~~
 ~~~
 \o 'C:/ts303/hr_migration/schema/views/create_views.log'
 ~~~
 ~~~
-\i 'C:ts303/hr_migration/schema/views/views.sql'
+\i 'C:/ts303/hr_migration/schema/views/views.sql'
 ~~~
 
 
