@@ -162,7 +162,7 @@ The steps in this exercise will demonstrate how to migrate an Oracle database to
 
    
 
-   ![create-postgresql](https://github.com/berenguel/lab303/blob/master/IMG/im2.png)
+   ![create-postgresql](https://raw.githubusercontent.com/berenguel/lab303/master/IMG/im2.png)
 
    
 
@@ -217,7 +217,7 @@ ora2pg -t COPY -o data.sql -b C:\ts303\hr_migration\data -c C:\ora2pg\ora2pg_hr.
 
   Click on "**Go to resource**"
 
-![Azure-Postgresql](https://github.com/berenguel/lab303/blob/master/IMG/im3.png)
+![Azure-Postgresql](https://raw.githubusercontent.com/berenguel/lab303/master/IMG/im3.png)
 
 - Go to the "**Connection Security**" blade make sure the "**Firewall rules**" are properly set, as following:
 
@@ -229,7 +229,7 @@ ora2pg -t COPY -o data.sql -b C:\ts303\hr_migration\data -c C:\ora2pg\ora2pg_hr.
 
   
 
-  ![1549832443872](https://github.com/berenguel/lab303/blob/master/IMG/im4.png)
+  ![1549832443872](https://raw.githubusercontent.com/berenguel/lab303/master/IMG/im4.png)
 
   
 
