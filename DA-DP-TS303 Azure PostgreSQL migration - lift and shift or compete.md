@@ -47,7 +47,7 @@ The steps in this exercise will demonstrate how to assess an Oracle database to 
 
 This exercise should take no longer than 5 min.
 
-1. Let's run an assessment
+1. Let's create our project base for the migration:
 
 
  - [x] Task:
@@ -171,7 +171,7 @@ The steps in this exercise will demonstrate how to migrate an Oracle database to
      
 
 
-2. Oracle database Objects export:
+2. Oracle Database Objects export:
 
 - [x] Task:
 
@@ -199,17 +199,7 @@ ora2pg -p -t VIEW -o views.sql -b C:\ts303\hr_migration\schema\views -c C:\ora2p
 
 
 
-3. Oracle Data export:
-
-- [x] Task:
-
-~~~
-ora2pg -t COPY -o data.sql -b C:\ts303\hr_migration\data -c C:\ora2pg\ora2pg_hr.conf
-~~~
-
-
-
-4. Configuring the target  "Azure Database for PostgreSQL"  in your Azure Subscription:
+3. Configuring the target  "Azure Database for PostgreSQL"  in your Azure Subscription:
 
 - [x] Task:
 
@@ -225,6 +215,8 @@ ora2pg -t COPY -o data.sql -b C:\ts303\hr_migration\data -c C:\ora2pg\ora2pg_hr.
 
   ​	Enforce SSL Connection DISABLED
 
+  
+
 - Click "Save"
 
   
@@ -235,7 +227,7 @@ ora2pg -t COPY -o data.sql -b C:\ts303\hr_migration\data -c C:\ora2pg\ora2pg_hr.
 
   
 
-5. Let's create the Azure Database for PostgreSQL **lab303** database:
+4. Let's create the Azure Database for PostgreSQL **lab303** database:
 
 - [x] Task:
 
@@ -255,7 +247,6 @@ CREATE DATABASE lab303;
 CREATE ROLE HR LOGIN PASSWORD 'test303';
 GRANT CONNECT ON DATABASE lab303 TO HR;
 GRANT ALL PRIVILEGES ON DATABASE lab303 TO HR;
-
 ```
 
 ```
@@ -268,14 +259,20 @@ GRANT USAGE ON SCHEMA HR TO HR;
 GRANT HR TO pgadmin;
 ALTER SCHEMA HR OWNER TO HR;
 ```
+~~~
+\q
+~~~
 
 After configuring the Azure Database for PostgreSQL equivalent of the Oracle environment, lets export the Oracle schema.
 
-6. Run files against the Azure Database for PostgreSQL server, to **import HR Schema**
+5. Run files against the Azure Database for PostgreSQL server, to **import HR Schema**
 
 - [x] Task:
 
-
+~~~
+psql -h lab303pg.postgres.database.azure.com -p 5432 -U hr@lab303pg -d lab303
+~~~
+Password is test303
 ~~~
 \o 'C:/ts303/hr_migration/schema/tables/create_table.log'
 ~~~
@@ -306,12 +303,49 @@ After configuring the Azure Database for PostgreSQL equivalent of the Oracle env
 ~~~
 \i 'C:/ts303/hr_migration/schema/views/views.sql'
 ~~~
+~~~
+\q
+~~~
+
+6. Run the Data Migration
+
+- [x] Task:
+
+```
+ora2pg -t COPY -o data.sql -b C:\ts303\hr_migration\data -c C:\ora2pg\ora2pg_hr.conf
+```
 
 
 
-Typical Oracle to Azure Database for PostgreSQL fixes:
+7. Fix the Data Migration error
+~~~
+psql -h lab303pg.postgres.database.azure.com -p 5432 -U hr@lab303pg -d lab303
+~~~
+Password is **test303** 
 
-8. [https://microsoft.sharepoint.com/:w:/r/teams/sqlaa/jumpstart/_layouts/15/Doc.aspx?sourcedoc=%7B18D0D9BE-8303-4791-83DA-B02591AD261B%7D&file=Oracle%20to%20Azure%20PostgreSQL%20Migration%20Workarounds%20v1.0.docx&action=default&mobileredirect=true](Link here)
+~~~
+ALTER TABLE hr.employees ALTER COLUMN SALARY3 TYPE NUMERIC(20,4); 
+TRUNCATE TABLE HR.COUNTRIES;
+TRUNCATE TABLE HR.DEPARTMENTS;
+TRUNCATE TABLE HR.EMPLOYEES;
+TRUNCATE TABLE HR.JOB_HISTORY;
+TRUNCATE TABLE HR.JOBS;
+TRUNCATE TABLE HR.LOCATIONS;
+TRUNCATE TABLE HR.REGIONS;
+~~~
+~~~
+\q
+~~~
+
+   
+
+8. Re-Run Data Migration
+
+- [x] Task:
+
+```
+ora2pg -t COPY -o data.sql -b C:\ts303\hr_migration\data -c C:\ora2pg\ora2pg_hr.conf
+```
 
 **Summary:** In this exercise, you learnt how to deploy the migration of data and schema from
 Oracle to Azure Database for PostgreSQL. 
@@ -323,7 +357,7 @@ Oracle to Azure Database for PostgreSQL.
       1.       Run Migration validation
 
 ```
-   ora2pg -t TEST -c C:\ora2pg\ora2pg_hr.conf > migration_diff.txt
+   ora2pg -t TEST -c C:\ora2pg\ora2pg_hr.conf > c:\ts303\hr_migration\migration_diff.txt
 ```
 
 
