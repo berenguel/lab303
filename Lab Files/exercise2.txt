@@ -1,0 +1,74 @@
+-- 1 Create an Azure Database for PostgreSQL service
+-- Azure Portal
+
+--2 Oracle Export
+cd c:\ora2pg
+
+ora2pg -p -t PROCEDURE -o procs.sql -b C:\ts303\hr_migration\schema\procedures -c C:\ora2pg\ora2pg_hr.conf
+
+ora2pg -t SEQUENCE -o sequences.sql -b C:\ts303\hr_migration\schema\sequences -c C:\ora2pg\ora2pg_hr.conf
+
+ora2pg -t TABLE -o table.sql -b C:\ts303\hr_migration\schema\tables -c C:\ora2pg\ora2pg_hr.conf
+
+ora2pg -p -t TRIGGER -o triggers.sql -b C:\ts303\hr_migration\schema\triggers -c C:\ora2pg\ora2pg_hr.conf
+
+ora2pg -p -t VIEW -o views.sql -b C:\ts303\hr_migration\schema\views -c C:\ora2pg\ora2pg_hr.conf
+
+
+--3 Configure Target Azure Database for PostgreSQL service
+-- Azure Portal
+
+--4 Configure target Azure Database for PostgreSQL database
+cd C:\Program Files (x86)\pgAdmin 4\v4\Runtime
+
+psql -h lab303pg.postgres.database.azure.com -p 5432 -U pgadmin@lab303pg -d postgres 
+
+CREATE DATABASE lab303;
+CREATE ROLE HR LOGIN PASSWORD 'test303';
+GRANT CONNECT ON DATABASE lab303 TO HR;
+GRANT ALL PRIVILEGES ON DATABASE lab303 TO HR;
+\c lab303
+
+CREATE SCHEMA HR;
+GRANT USAGE ON SCHEMA HR TO HR;
+GRANT HR TO pgadmin;
+ALTER SCHEMA HR OWNER TO HR;
+\q
+
+--5 Import HR schema
+
+psql -h lab303pg.postgres.database.azure.com -p 5432 -U hr@lab303pg -d lab303
+
+\o 'C:/ts303/hr_migration/schema/tables/create_table.log'
+\i 'C:/ts303/hr_migration/schema/tables/table.sql'
+\o 'C:/ts303/hr_migration/schema/sequences/create_sequences.log'
+\i 'C:/ts303/hr_migration/schema/sequences/sequences.sql'
+\o 'C:/ts303/hr_migration/schema/procedures/create_procs.log'
+\i 'C:/ts303/hr_migration/schema/procedures/procs.sql'
+\o 'C:/ts303/hr_migration/schema/triggers/create_triggers.log'
+\i 'C:/ts303/hr_migration/schema/triggers/triggers.sql'
+\o 'C:/ts303/hr_migration/schema/views/create_views.log'
+\i 'C:/ts303/hr_migration/schema/views/views.sql'
+\q
+
+
+--6 Run Data Migration
+ora2pg -t COPY -o data.sql -b C:\ts303\hr_migration\data -c C:\ora2pg\ora2pg_hr.conf
+
+
+--7 Fix Data Migration Error
+psql -h lab303pg.postgres.database.azure.com -p 5432 -U hr@lab303pg -d lab303
+
+
+ALTER TABLE hr.employees ALTER COLUMN SALARY3 TYPE NUMERIC(20,4); 
+TRUNCATE TABLE HR.COUNTRIES;
+TRUNCATE TABLE HR.DEPARTMENTS;
+TRUNCATE TABLE HR.EMPLOYEES;
+TRUNCATE TABLE HR.JOB_HISTORY;
+TRUNCATE TABLE HR.JOBS;
+TRUNCATE TABLE HR.LOCATIONS;
+TRUNCATE TABLE HR.REGIONS;
+\q
+
+--8 Run Data Migration
+ora2pg -t COPY -o data.sql -b C:\ts303\hr_migration\data -c C:\ora2pg\ora2pg_hr.conf

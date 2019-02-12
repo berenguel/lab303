@@ -32,8 +32,6 @@ At the end of this lab, you will be able to:
 
 **Logging into the lab environment **
 
-* Log into the lab using your **corporate credentials**
-
 * Go to the top left-hand side "**Thunderbolt**" and select "**Ctrl+Alt+Del**"
 
 * Go to the top left-hand side "**Thunderbolt**" again and select "**Type Text**" -> "**Type Password**"
@@ -72,15 +70,14 @@ This exercise should take no longer than 5 min.
 ~~~
 cd c:\ts303\hr_migration
 ~~~
-
+~~~
+ora2pg -t SHOW_REPORT -c c:\ora2pg\ora2pg_hr.conf --dump_as_html --estimate_cost > c:\ts303\hr_migration\reports\report.html
+~~~
 ~~~
 ora2pg -t SHOW_TABLE -c c:\ora2pg\ora2pg_hr.conf > c:\ts303\hr_migration\reports\tables.txt
 ~~~
 ~~~
 ora2pg -t SHOW_COLUMN -c c:\ora2pg\ora2pg_hr.conf > c:\ts303\hr_migration\reports\columns.txt
-~~~
-~~~
-ora2pg -t SHOW_REPORT -c c:\ora2pg\ora2pg_hr.conf --dump_as_html --estimate_cost > c:\ts303\hr_migration\reports\report.html
 ~~~
 ~~~
 ora2pg -t SHOW_REPORT -c c:\ora2pg\ora2pg_hr.conf –-cost_unit_value 10 --dump_as_html --estimate_cost > c:\ts303\hr_migration\reports\report2.html 
@@ -130,45 +127,51 @@ Migration levels:
 
 The steps in this exercise will demonstrate how to migrate an Oracle database to Azure Database for PostgreSQL. The attendees are going to export the Oracle database objects and code using ora2pg, fix some common migration problems and import the fixed objects and data into Azure Database for PostgreSQL. This exercise should take no longer than 25 min.
 
-1. Let's setup the Azure Database for PostgreSQL
+1. Let's setup the Azure Database for PostgreSQL service
 
    - [x] Task:
-   - Go to portal.azure.com and pick your Microsoft account
-   - Click on "**Create a Resource**" and type "**Azure Database for PostgreSQL**"
 
-   ![1549831354860](https://raw.githubusercontent.com/berenguel/lab303/master/IMG/im1.png)
+   - In your LAB environment, go to **RESOURCES**
 
-   
+   - Go to portal.azure.com (inside your lab environment) 
 
-   - Select "**Azure Database for PostgreSQL**" and click on "Create"
-
-   - Fill the required information as following:
-
-     Server Name: **lab303pg**
-
-     Resource Group: **lab303rg**
-
-     Select Source: **Blank**
-
-     Server admin login name: **pgadmin**
-
-     Password: **LabAdmin303**
-
-     Location: (whatever suits you)
-
-     Version :**10** 
-
-     Pricing Tier: **General Purpose 4 vCore(s)** - default
-
-   
-
-   ![create-postgresql](https://raw.githubusercontent.com/berenguel/lab303/master/IMG/im2.png)
-
-   
-
-   - Click "**Create**"
+   - Use the username and password and show in the **RESOURCES** tab and login to your subscription
 
      
+
+     ![1549997262279](https://raw.githubusercontent.com/berenguel/lab303/master/IMG/im1.png)
+
+   
+
+   
+
+   - Navigate to "**All Resources**"
+
+   - Click in the **PostgreSQL** resource 
+
+     
+
+     ![1549997262279](https://raw.githubusercontent.com/berenguel/lab303/master/IMG/im2.png)
+
+
+
+- Go to the "**Connection Security**" blade make sure the "**Firewall rules**" are properly set, as following:
+
+  ​	Add a new rule: Rule Name: new_rule, Start IP: 1.1.1.1, End IP: 255.255.255.255
+
+  ​	Enforce SSL Connection DISABLED
+
+  
+
+- Click "Save"
+
+  
+
+  ![1549832443872](https://raw.githubusercontent.com/berenguel/lab303/master/IMG/im3.png)
+
+  
+
+  
 
 
 2. Oracle Database Objects export:
@@ -199,35 +202,7 @@ ora2pg -p -t VIEW -o views.sql -b C:\ts303\hr_migration\schema\views -c C:\ora2p
 
 
 
-3. Configuring the target  "Azure Database for PostgreSQL"  in your Azure Subscription:
-
-- [x] Task:
-
-- Go to your Azure Subscription and find your Azure Database for PostgreSQL resource. One of the ways of doing this is by doing the following:
-
-  Click on "**Go to resource**"
-
-![Azure-Postgresql](https://raw.githubusercontent.com/berenguel/lab303/master/IMG/im3.png)
-
-- Go to the "**Connection Security**" blade make sure the "**Firewall rules**" are properly set, as following:
-
-  ​	Add a new rule: Rule Name: new_rule, Start IP: 1.1.1.1, End IP: 255.255.255.255
-
-  ​	Enforce SSL Connection DISABLED
-
-  
-
-- Click "Save"
-
-  
-
-  ![1549832443872](https://raw.githubusercontent.com/berenguel/lab303/master/IMG/im4.png)
-
-  
-
-  
-
-4. Let's create the Azure Database for PostgreSQL **lab303** database:
+3. Let's create the Azure Database for PostgreSQL **lab303** database:
 
 - [x] Task:
 
@@ -265,14 +240,14 @@ ALTER SCHEMA HR OWNER TO HR;
 
 After configuring the Azure Database for PostgreSQL equivalent of the Oracle environment, lets export the Oracle schema.
 
-5. Run files against the Azure Database for PostgreSQL server, to **import HR Schema**
+5. **Import HR Schema** into Azure Database for PosgreSQL
 
 - [x] Task:
 
 ~~~
 psql -h lab303pg.postgres.database.azure.com -p 5432 -U hr@lab303pg -d lab303
 ~~~
-Password is test303
+Password is **test303**
 ~~~
 \o 'C:/ts303/hr_migration/schema/tables/create_table.log'
 ~~~
@@ -310,6 +285,8 @@ Password is test303
 6. Run the Data Migration
 
 - [x] Task:
+
+Go to:
 
 ```
 ora2pg -t COPY -o data.sql -b C:\ts303\hr_migration\data -c C:\ora2pg\ora2pg_hr.conf
@@ -352,15 +329,15 @@ Oracle to Azure Database for PostgreSQL.
 
   
 
-   ### Exercise 3: Migration Testing ###
+###  Exercise 3: Test the Migration ###
 
-      1.       Run Migration validation
+
 
 ```
-   ora2pg -t TEST -c C:\ora2pg\ora2pg_hr.conf > c:\ts303\hr_migration\migration_diff.txt
+ora2pg -t TEST -c C:\ora2pg\ora2pg_hr.conf > c:\ts303\hr_migration\migration_diff.txt
 ```
 
 
 
-**Summary**: In this exercise, you learnt how to easily test the migration from Oracle to Azure Database for PostgreSQL using ora2pg.
+**Summary**: In this exercise, you learnt how to test the migration from Oracle to Azure Database for PostgreSQL using ora2pg.
 

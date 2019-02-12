@@ -1,0 +1,2 @@
+-- Exercise 3: Test the Migration of HR schema
+ora2pg -t TEST -c C:\ora2pg\ora2pg_hr.conf > c:\ts303\hr_migration\migration_diff.txt
