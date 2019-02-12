@@ -208,6 +208,8 @@ ora2pg -p -t VIEW -o views.sql -b C:\ts303\hr_migration\schema\views -c C:\ora2p
 
   Run the following commands to configure the target **lab303** PostgreSQL database:
 
+  **DON'T FORGET** : Edit the PostgreSQL server (labXXXX.postgresql.database.azure.com) in the psql command to reflect your lab environment, also in the username string:  pgadmin@labXXXX 
+
 ```
 cd C:\Program Files (x86)\pgAdmin 4\v4\Runtime
 ```
@@ -243,6 +245,8 @@ After configuring the Azure Database for PostgreSQL equivalent of the Oracle env
 5. **Import HR Schema** into Azure Database for PosgreSQL
 
 - [x] Task:
+
+**DON'T FORGET** : Edit the PostgreSQL server (labXXXX.postgresql.database.azure.com) in the psql command to reflect your lab environment, also in the username string:  pgadmin@labXXXX 
 
 ~~~
 psql -h lab8381412.postgres.database.azure.com -p 5432 -U hr@lab8381412 -d lab303
