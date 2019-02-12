@@ -89,7 +89,7 @@ ora2pg -t SHOW_REPORT -c c:\ora2pg\ora2pg_hr.conf –-cost_unit_value 10 --dump_
 
 - [x] Task:
 
-   - Navigate to **c:\ts303\hr_migration\reports\**  via UI
+   - Navigate to **c:\ts303\hr_migration\reports\**  via windows folders (UI)
 
    - Double click on **report.html** to open the report in your browser
 
@@ -133,9 +133,9 @@ The steps in this exercise will demonstrate how to migrate an Oracle database to
 
    - In your LAB environment, go to **RESOURCES**
 
-   - Go to portal.azure.com (inside your lab environment) 
+   - Go to portal.azure.com (inside your lab environment) via Internet Explorer
 
-   - Use the username and password and show in the **RESOURCES** tab and login to your subscription
+   - Use the **username** and password and show in the **RESOURCES** tab and login to your subscription
 
      
 
@@ -168,6 +168,8 @@ The steps in this exercise will demonstrate how to migrate an Oracle database to
   ![1549832443872](https://raw.githubusercontent.com/berenguel/lab303/master/IMG/im3.png)
 
   
+
+  Close your browser and go back to **cmd**
 
   
 
@@ -290,7 +292,7 @@ Navigate to C:\ora2pg using Windows Folders
 
 Right-Click in the ora2pg_hr.conf file to open it with Notepad++
 
-![1549997262279](https://raw.githubusercontent.com/berenguel/lab303/master/IMG/im4.png)
+![1549997262279](https://raw.githubusercontent.com/berenguel/lab303/master/IMG/im4.PNG)
 
 
 
@@ -304,7 +306,7 @@ Edit the configuration as follow:
 
 Edit PG_USER and PG_DSN to reflect your postgreSQL server details
 
-![1549997262279](https://raw.githubusercontent.com/berenguel/lab303/master/IMG/im5.png)
+![1549997262279](https://raw.githubusercontent.com/berenguel/lab303/master/IMG/im5.PNG)
 
 
 
