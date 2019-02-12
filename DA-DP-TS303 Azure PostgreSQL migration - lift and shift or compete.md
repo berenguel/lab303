@@ -157,8 +157,6 @@ The steps in this exercise will demonstrate how to migrate an Oracle database to
 
 - Go to the "**Connection Security**" blade make sure the "**Firewall rules**" are properly set, as following:
 
-  ​	Add a new rule: Rule Name: new_rule, Start IP: 1.1.1.1, End IP: 255.255.255.255
-
   ​	Enforce SSL Connection DISABLED
 
   
@@ -212,7 +210,7 @@ ora2pg -p -t VIEW -o views.sql -b C:\ts303\hr_migration\schema\views -c C:\ora2p
 cd C:\Program Files (x86)\pgAdmin 4\v4\Runtime
 ```
 ```
-psql -h lab303pg.postgres.database.azure.com -p 5432 -U pgadmin@lab303pg -d postgres 
+psql -h lab8381412.postgres.database.azure.com -p 5432 -U pgadmin@lab8381412 -d postgres 
 ```
 
 Enter the Password when prompted. The password is: **LabAdmin303**
@@ -245,7 +243,7 @@ After configuring the Azure Database for PostgreSQL equivalent of the Oracle env
 - [x] Task:
 
 ~~~
-psql -h lab303pg.postgres.database.azure.com -p 5432 -U hr@lab303pg -d lab303
+psql -h lab8381412.postgres.database.azure.com -p 5432 -U hr@lab8381412 -d lab303
 ~~~
 Password is **test303**
 ~~~
@@ -286,7 +284,31 @@ Password is **test303**
 
 - [x] Task:
 
-Go to:
+Before you run the data migration task, you need to edit the config_hr.dist file with your postgreSQL server:
+
+Navigate to C:\ora2pg using Windows Folders
+
+Right-Click in the ora2pg_hr.conf file to open it with Notepad++
+
+![1549997262279](https://raw.githubusercontent.com/berenguel/lab303/master/IMG/im4.png)
+
+
+
+
+
+
+
+
+
+Edit the configuration as follow:
+
+Edit PG_USER and PG_DSN to reflect your postgreSQL server details
+
+![1549997262279](https://raw.githubusercontent.com/berenguel/lab303/master/IMG/im5.png)
+
+
+
+Now, go to back to **CMD** and run:
 
 ```
 ora2pg -t COPY -o data.sql -b C:\ts303\hr_migration\data -c C:\ora2pg\ora2pg_hr.conf
@@ -296,7 +318,7 @@ ora2pg -t COPY -o data.sql -b C:\ts303\hr_migration\data -c C:\ora2pg\ora2pg_hr.
 
 7. Fix the Data Migration error
 ~~~
-psql -h lab303pg.postgres.database.azure.com -p 5432 -U hr@lab303pg -d lab303
+psql -h lab8381412.postgres.database.azure.com -p 5432 -U hr@lab8381412 -d lab303
 ~~~
 Password is **test303** 
 
